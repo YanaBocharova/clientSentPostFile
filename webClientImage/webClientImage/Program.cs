@@ -1,4 +1,6 @@
 ﻿using System;
+using System.IO;
+using System.Net;
 
 namespace webClientImage
 {
@@ -6,11 +8,10 @@ namespace webClientImage
     {
         static void Main(string[] args)
         {
-            Post13();
-            Console.WriteLine("Hello World!");
+            RequestToServer();
         }
 
-        private static void Post13()
+        private static void RequestToServer()
         {
             var url = "http://localhost:5000/api/filemanager/";
 
@@ -18,23 +19,15 @@ namespace webClientImage
 
             var pathN = @"C:\Users\hp\Desktop\ResponseImage.png";
 
-            using (WebClient cl = new WebClient())
+            using (WebClient client = new WebClient())
             {
-                var responceByte = cl.UploadFile(url, localPath);
+                var responceByte = client.UploadFile(url, localPath);
 
                 using (FileStream fs = new FileStream(pathN, FileMode.Create, FileAccess.Write))
                 {
                     fs.Write(responceByte, 0, responceByte.Length);
                 }
-
-                // err
-
-                //using (Image image = Image.FromStream(new MemoryStream(responceByte)))
-                //{
-                //    image.Save(@"C:\Users\hp\Desktop\output1.png", ImageFormat.Png);  // Or Png
-                //}
             }
         }
     }
-}
 }
